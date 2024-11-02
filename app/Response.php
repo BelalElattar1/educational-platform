@@ -8,7 +8,7 @@ trait Response
 
         return response()->json([
             'Message' => $message,
-            'date'    => $data
+            'data'    => $data
         ], $status);
 
     }
