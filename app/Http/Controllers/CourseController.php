@@ -14,15 +14,16 @@ class CourseController extends Controller
 
     public function index() {
 
-        if(auth()->user()->is_admin) {
+        // if(auth()->user()->is_admin) {
 
-            $courses = Course::all();
+        //     $courses = Course::all();
 
-        } else {
+        // } else {
 
-            $courses = Course::where('year_id', auth()->user()->year_id)->where('division_id', auth()->user()->division_id)->get();
+        //     $courses = Course::where('year_id', auth()->user()->year_id)->where('division_id', auth()->user()->division_id)->get();
 
-        }
+        // }
+        $courses = Course::all();
 
         return $this->response('created Suc', 200, $courses);
 
