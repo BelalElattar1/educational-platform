@@ -31,6 +31,13 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
             Route::put('/update/{id}', [JWTAuthController::class, 'update']);
         });
 
+        // Course Controller
+        Route::group(['prefix' => 'course'], function () {
+            Route::post('/create', [CourseController::class, 'store']);
+            Route::post('/update/{id}', [CourseController::class, 'update']);
+            Route::delete('/delete/{id}', [CourseController::class, 'delete']);
+        });
+
     });
 
     // User Auth
@@ -39,15 +46,11 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
         Route::post('/logout', [JWTAuthController::class, 'logout']);
     });
 
-    // Course Controller
-    Route::group(['prefix' => 'course'], function () {
-        Route::get('/index', [CourseController::class, 'index']);
-        Route::post('/create', [CourseController::class, 'store'])->middleware('is_admin');
-        Route::post('/update/{id}', [CourseController::class, 'update'])->middleware('is_admin');
-        Route::delete('/delete/{id}', [CourseController::class, 'delete'])->middleware('is_admin');
-    });
-
 });
 
+// Auth 
 Route::post('/register', [JWTAuthController::class, 'register']);
 Route::post('/login', [JWTAuthController::class, 'login']);
+
+// Course Controller
+Route::get('course/index', [CourseController::class, 'index']);
