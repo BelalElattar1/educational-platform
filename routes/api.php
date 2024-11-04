@@ -5,6 +5,7 @@ use App\Http\Controllers\JWTAuthController;
 use App\Http\Controllers\YearController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CategoryController;
 
 Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
 
@@ -36,6 +37,12 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
             Route::post('/create', [CourseController::class, 'store']);
             Route::post('/update/{id}', [CourseController::class, 'update']);
             Route::delete('/delete/{id}', [CourseController::class, 'delete']);
+        });
+
+        // Category Controller
+        Route::group(['prefix' => 'category'], function () {
+            Route::post('/create', [CategoryController::class, 'store']);
+            Route::put('/update/{id}', [CategoryController::class, 'update']);
         });
 
     });
