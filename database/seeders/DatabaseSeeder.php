@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             GovernorateSeeder::class
         ]);
 
-        User::factory(50)->create();
+        // User::factory(50)->create();
         
     }
 }

@@ -12,6 +12,13 @@ class DivisionController extends Controller
 
     use Response;
 
+    public function index() {
+
+        $divisions = Division::all();
+        return $this->response('Show All Divisions Suc', 201, $divisions);
+        
+    }
+
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [

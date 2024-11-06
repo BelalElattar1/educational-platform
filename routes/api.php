@@ -1,11 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JWTAuthController;
-use App\Http\Controllers\YearController;
-use App\Http\Controllers\DivisionController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CategoryController;
+use App\Models\Governorate;
+use App\Http\Controllers\ {
+    YearController,
+    CourseController,
+    SectionController,
+    JWTAuthController,
+    CategoryController,
+    DivisionController,
+    QuestionController,
+};
 
 Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
 
@@ -44,6 +49,17 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
             Route::post('/create', [CategoryController::class, 'store']);
             Route::put('/update/{id}', [CategoryController::class, 'update']);
         });
+        
+        // Section Controller
+        Route::group(['prefix' => 'section'], function () {
+            Route::post('/create', [SectionController::class, 'store']);
+            Route::put('/update/{id}', [SectionController::class, 'update']);
+        });
+
+        // Question Controller
+        Route::group(['prefix' => 'question'], function () {
+            Route::post('/create', [QuestionController::class, 'store']);
+        });
 
     });
 
@@ -61,3 +77,14 @@ Route::post('/login', [JWTAuthController::class, 'login']);
 
 // Course Controller
 Route::get('course/index', [CourseController::class, 'index']);
+
+// Division Controller
+Route::get('division/index', [DivisionController::class, 'index']);
+
+// Year Controller
+Route::get('year/index', [YearController::class, 'index']);
+
+// Governorates Controller
+Route::get('governorate/index', function () {
+    return Governorate::all();
+});

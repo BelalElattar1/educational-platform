@@ -12,6 +12,13 @@ class YearController extends Controller
 
     use Response;
 
+    public function index() {
+
+        $years = Year::all();
+        return $this->response('Show All Years Suc', 201, $years);
+        
+    }
+
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [

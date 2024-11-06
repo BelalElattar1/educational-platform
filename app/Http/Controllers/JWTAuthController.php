@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Division;
+use App\Models\Year;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +17,6 @@ class JWTAuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
             'email'                => 'required|string|email|max:255|unique:users',
             'gender'               => 'required|in:male,female',
             'year_id'              => 'required|integer|exists:years,id',
@@ -58,9 +59,7 @@ class JWTAuthController extends Controller
             'password'             => Hash::make($request->get('password'))
         ]);
 
-        // $token = JWTAuth::fromUser($user);
-
-        return response()->json(compact('user'), 201);
+        return response()->json(compact('user', 'divisions', 'years'), 201);
     }
 
     // User login
