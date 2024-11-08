@@ -13,22 +13,22 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->boolean('is_active')->default(0);
             $table->boolean('is_admin')->default(0);
-            $table->text('card_photo');
+            $table->text('card_photo')->nullable();
             $table->enum('gender', ['male', 'female']);
-            $table->string('student_phone_number')->unique();
-            $table->string('parent_phone_number')->unique();
+            $table->string('student_phone_number')->unique()->nullable();
+            $table->string('parent_phone_number')->unique()->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('wallet')->default(0);
             $table->rememberToken();
-            $table->foreignId('year_id')->constrained('years', 'id')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('division_id')->constrained('divisions', 'id')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('governorate_id')->constrained('governorates', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('year_id')->nullable()->constrained('years', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('division_id')->nullable()->constrained('divisions', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('governorate_id')->nullable()->constrained('governorates', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
 

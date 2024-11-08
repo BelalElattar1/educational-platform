@@ -22,7 +22,10 @@ class CourseController extends Controller
     
             } elseif(!auth()->user()->is_admin) {
     
-                $courses = Course::where('year_id', auth()->user()->year_id)->where('division_id', auth()->user()->division_id)->get();
+                $courses = Course::whereDoesntHave('invoices', function ($query) {
+                    $query->where('status', 'paid');
+                    $query->where('student_id', auth()->user()->id);
+                })->get();
     
             }
 

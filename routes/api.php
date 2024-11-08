@@ -11,7 +11,10 @@ use App\Http\Controllers\ {
     DivisionController,
     QuestionController,
     AnswerController,
-    CodeController
+    CodeController,
+    InvoiceController,
+    RechargeController,
+    AdminController
 };
 
 Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
@@ -74,6 +77,26 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
     // Exam Controller
     Route::group(['prefix' => 'section'], function () {
         Route::get('/show-exam/{id}', [SectionController::class, 'show_exam']);
+    });
+
+    // Recharge Controller
+    Route::group(['prefix' => 'recharge'], function () {
+        Route::get('/index', [RechargeController::class, 'index']);
+        Route::post('/store', [RechargeController::class, 'store']);
+    });
+    
+    // Admin Controller
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/index', [AdminController::class, 'index']);
+        Route::post('/store', [AdminController::class, 'store']);
+    });
+
+    // Invoice Controller
+    Route::group(['prefix' => 'invoice'], function () {
+        Route::get('/get-all-invoices-unpaid', [InvoiceController::class, 'get_all_invoices_unpaid']);
+        Route::get('/my-courses', [InvoiceController::class, 'my_courses']);
+        Route::post('/store', [InvoiceController::class, 'store']);
+        Route::put('/pay/{id}', [InvoiceController::class, 'pay']);
     });
 
     // Answer Controller
