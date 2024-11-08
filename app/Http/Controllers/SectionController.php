@@ -11,6 +11,13 @@ class SectionController extends Controller
 {
     use Response;
 
+    public function show_exam($id) {
+
+        $exam = Section::with(['questions.chooses'])->where('id', $id)->where('type', 'exam')->first();
+        return $this->response(message: 'Show Exam Suc', data: $exam);
+
+    }
+
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [

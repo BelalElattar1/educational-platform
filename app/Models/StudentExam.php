@@ -4,18 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class StudentExam extends Model
 {
     protected $fillable = [
-        'name',
-        'exam_id'
+        'degree',
+        'exam_id',
+        'student_id'
     ];
-
-    public function chooses() {
-        return $this->hasMany(Choose::class);
-    }
 
     public function exam() {
         return $this->belongsTo(Section::class, 'exam_id', 'id');
+    }
+
+    public function student() {
+        return $this->belongsTo(User::class, 'student', 'id');
     }
 }

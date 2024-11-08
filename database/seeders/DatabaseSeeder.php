@@ -20,7 +20,16 @@ class DatabaseSeeder extends Seeder
             // ]);
             
         $this->call([
-            GovernorateSeeder::class
+            GovernorateSeeder::class,
+            YearSeeder::class,
+            DivisionSeeder::class,
+            UserSeeder::class,
+            CourseSeeder::class,
+            CategorySeeder::class,
+            SectionSeeder::class,
+            QuestionSeeder::class,
+            ChooseSeeder::class,
+            CodeSeeder::class,
         ]);
 
         // User::factory(50)->create();

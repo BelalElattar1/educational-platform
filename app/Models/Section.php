@@ -14,4 +14,8 @@ class Section extends Model
         'exam_mark',
         'category_id'
     ];
+
+    public function questions() {
+        return $this->hasMany(Question::class, 'exam_id', 'id');
+    }
 }

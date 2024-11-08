@@ -26,8 +26,8 @@ class JWTAuthController extends Controller
             'card_photo'           => 'required|image|max:1048576|mimes:jpg,jpeg,png',
             'division_id'          => 'required|integer|exists:divisions,id',
             'governorate_id'       => 'required|integer|exists:governorates,id',
-            'parent_phone_number'  => 'string|min:11|max:11',
-            'student_phone_number' => 'string|min:11|max:11'
+            'parent_phone_number'  => 'string|min:11|max:11|unique:users',
+            'student_phone_number' => 'string|min:11|max:11|unique:users'
 
         ], [
 
@@ -59,7 +59,7 @@ class JWTAuthController extends Controller
             'password'             => Hash::make($request->get('password'))
         ]);
 
-        return response()->json(compact('user', 'divisions', 'years'), 201);
+        return response()->json(compact('user'), 201);
     }
 
     // User login

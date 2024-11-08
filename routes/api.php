@@ -10,6 +10,8 @@ use App\Http\Controllers\ {
     CategoryController,
     DivisionController,
     QuestionController,
+    AnswerController,
+    CodeController
 };
 
 Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
@@ -61,6 +63,23 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
             Route::post('/create', [QuestionController::class, 'store']);
         });
 
+        // Codes Controller
+        Route::group(['prefix' => 'code'], function () {
+            Route::post('/store', [CodeController::class, 'store']);
+            Route::get('/index', [CodeController::class, 'index']);
+        });
+
+    });
+
+    // Exam Controller
+    Route::group(['prefix' => 'section'], function () {
+        Route::get('/show-exam/{id}', [SectionController::class, 'show_exam']);
+    });
+
+    // Answer Controller
+    Route::group(['prefix' => 'answer'], function () {
+        Route::post('/store', [AnswerController::class, 'store']);
+        Route::get('/get-all-degrees', [AnswerController::class, 'get_all_degrees']);
     });
 
     // User Auth
