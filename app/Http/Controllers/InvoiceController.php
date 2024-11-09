@@ -36,7 +36,7 @@ class InvoiceController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $course  = Course::where('id', $request->course_id)->first();

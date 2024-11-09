@@ -42,7 +42,7 @@ class YearController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $year = Year::create([
@@ -73,6 +73,10 @@ class YearController extends Controller
             'name.max' => 'الاسم مينفعش يزيد عن 255 حرف',
 
         ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
 
         Year::findOrFail($id)->update([
             'name' => $request->name

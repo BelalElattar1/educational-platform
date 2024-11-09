@@ -27,19 +27,19 @@ class JWTAuthController extends Controller
             'card_photo'           => 'required|image|max:1048576|mimes:jpg,jpeg,png',
             'division_id'          => 'required|integer|exists:divisions,id',
             'governorate_id'       => 'required|integer|exists:governorates,id',
-            'parent_phone_number'  => 'string|min:11|max:11|unique:users',
-            'student_phone_number' => 'string|min:11|max:11|unique:users'
+            'parent_phone_number'  => 'string|min:11|max:11',
+            'student_phone_number' => 'string|min:11|max:11|unique:users',
 
-        ],[
+        ], [
 
             'email.required' => 'هذا الحقل مطلوب',
-            'email.string' => 'هذا الحقل لازم يكون عبارة عن نص',
-            'email.email' => 'هذا الحقل لازم يكون بصيغة الايميل',
-            'email.max' => 'اقصى عدد حروف لهذا الحقل هو 255',
-            'email.unique' => 'هذا الايميل موجود بالفعل',
+            'email.string'   => 'هذا الحقل لازم يكون عبارة عن نص',
+            'email.email'    => 'هذا الحقل لازم يكون بصيغة الايميل',
+            'email.max'      => 'اقصى عدد حروف لهذا الحقل هو 255',
+            'email.unique'   => 'هذا الايميل موجود بالفعل',
 
             'gender.required' => 'هذا الحقل مطلوب',
-            'gender.in' => 'لازم يكون هذا الحقل اما ذكر او انثى',
+            'gender.in'       => 'لازم يكون هذا الحقل اما ذكر او انثى',
 
             'year_id.required' => 'هذا الحقل مطلوب',
             'year_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
@@ -75,7 +75,6 @@ class JWTAuthController extends Controller
             'parent_phone_number.string' => 'لازم يكون هذا الرقم بصيغة نصي',
             'parent_phone_number.min' => 'لازم الرقم يتكون من 11 رقم',
             'parent_phone_number.max' => 'لازم الرقم يتكون من 11 رقم',
-            'parent_phone_number.unique' => 'هذا الرقم مسجل بالفعل',
 
             'student_phone_number.string' => 'لازم يكون هذا الرقم بصيغة نصي',
             'student_phone_number.min' => 'لازم الرقم يتكون من 11 رقم',

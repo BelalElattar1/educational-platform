@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('card_photo');
             $table->enum('gender', ['male', 'female']);
             $table->string('student_phone_number')->unique();
-            $table->string('parent_phone_number')->unique()->nullable();
+            $table->string('parent_phone_number')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

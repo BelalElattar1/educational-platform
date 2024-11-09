@@ -76,9 +76,9 @@ class SectionController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
-
+        
         Section::create([
             'name' => $request->name,
             'type' => $request->type,
@@ -118,7 +118,7 @@ class SectionController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         Section::findOrFail($id)->update([

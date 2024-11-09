@@ -50,7 +50,7 @@ class QuestionController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $is_exam = Section::where('id', $request->exam_id)->where('type', 'exam')->first();

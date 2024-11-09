@@ -42,7 +42,7 @@ class DivisionController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $division = Division::create([
@@ -73,6 +73,10 @@ class DivisionController extends Controller
             'name.max' => 'الاسم مينفعش يزيد عن 255 حرف',
 
         ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
 
         Division::findOrFail($id)->update([
             'name' => $request->name
