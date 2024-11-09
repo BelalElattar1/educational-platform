@@ -15,7 +15,15 @@ class YearController extends Controller
     public function index() {
 
         $years = Year::all();
-        return $this->response('Show All Years Suc', 201, $years);
+        if($years) {
+
+            return $this->response('تم جلب جميع الصفوف الدراسية بنجاح', 201, $years);
+
+        } else {
+
+            return $this->response('لا يوجد سنين دؤاسية', 404);
+
+        }
         
     }
 
@@ -37,11 +45,19 @@ class YearController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        Year::create([
+        $year = Year::create([
             'name' => $request->name
         ]);
 
-        return $this->response('created Suc');
+        if($year) {
+
+            return $this->response('تم اضافة السنة الدراسية بنجاح');
+
+        } else {
+
+            return $this->response('ناسف لقد حدث خطا يمكنك المحاولة مرة اخرى', 400);
+
+        }
     }
 
     public function update(Request $request, $id) {
@@ -62,13 +78,13 @@ class YearController extends Controller
             'name' => $request->name
         ]);
 
-        return $this->response('Updated Suc', 200);
+        return $this->response('تم التعديل بنجاح', 200);
     }
 
     public function delete($id) {
 
         Year::destroy($id);
-        return $this->response('Deleted Suc', 200);
+        return $this->response('تم الحذف بنجاح', 200);
     }
 
 }

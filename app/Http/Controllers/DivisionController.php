@@ -15,7 +15,15 @@ class DivisionController extends Controller
     public function index() {
 
         $divisions = Division::all();
-        return $this->response('Show All Divisions Suc', 201, $divisions);
+        if($divisions) {
+
+            return $this->response('جلب جميع الاقسام', 201, $divisions);
+
+        } else {
+
+            return $this->response('لا يوجد اقسام', 404);
+
+        }
         
     }
 
@@ -37,11 +45,19 @@ class DivisionController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        Division::create([
+        $division = Division::create([
             'name' => $request->name
         ]);
 
-        return $this->response('created Suc');
+        if($division) {
+
+            return $this->response('تم انشاء القسم بنجاح');
+
+        } else {
+
+            return $this->response('ناسف لقد جدث خطأ برجاء المحاولة مرة اخرى', 400);
+
+        }
     }
 
     public function update(Request $request, $id) {
@@ -62,13 +78,13 @@ class DivisionController extends Controller
             'name' => $request->name
         ]);
 
-        return $this->response('Updated Suc', 200);
+        return $this->response('تم التعديل بنجاح', 200);
     }
 
     public function delete($id) {
 
         Division::destroy($id);
-        return $this->response('Deleted Suc', 200);
+        return $this->response('تم الحذف بنجاح', 200);
     }
 
 }

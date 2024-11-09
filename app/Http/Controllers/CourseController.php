@@ -35,7 +35,15 @@ class CourseController extends Controller
 
         }
 
-        return $this->response('Suc', 200, $courses);
+        if($courses) {
+            
+            return $this->response('تم جلب جميع الكورسات بنجاح', 200, $courses);
+
+        } else {
+
+            return $this->response('لا يوجد كورسات');
+
+        }
 
     }
 
@@ -56,6 +64,25 @@ class CourseController extends Controller
             'title.string' => 'لازم الاسم يكون عبارة عن نص',
             'title.max' => 'الاسم مينفعش يزيد عن 255 حرف',
 
+            'description.required' => 'هذا الحقل مطلوب',
+            'description.string' => 'هذا الحقل لازم يكون من نوع نص',
+
+            'image.required' => 'هذا الحقل مطلوب',
+            'image.image' => 'هذا الحقل لازم يكون عبارة عن صورة',
+            'image.max' => 'اقصى مساحة للملف هي ',
+            'image.mimes' => 'لازم يكون الملف ده من نوع jpg او jpeg او png',
+            
+            'price.required' => 'هذا الحقل مطلوب',
+            'price.integer' => 'هذا الحقل لازم يكون من نوع رقم',
+
+            'year_id.required' => 'هذا الحقل مطلوب',
+            'year_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
+            'year_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
+
+            'division_id.required' => 'هذا الحقل مطلوب',
+            'division_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
+            'division_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
+
         ]);
 
         if($validator->fails()){
@@ -67,7 +94,7 @@ class CourseController extends Controller
             $image = $path->store('courses', 'public');
         }
 
-        Course::create([
+        $course = Course::create([
             'title'       => $request->title,
             'description' => $request->description,
             'image'       => $image,
@@ -75,8 +102,17 @@ class CourseController extends Controller
             'year_id'     => $request->year_id,
             'division_id' => $request->division_id
         ]);
+ 
+        if($course) {
 
-        return $this->response('created Suc');
+            return $this->response('تم انشاء الكورس بنجاح');
+
+        } else {
+
+            return $this->response('ناسف لقد حدث خطأ يمكنك اعادة المحاولة');
+
+        }
+
     }
 
     
@@ -96,6 +132,25 @@ class CourseController extends Controller
             'title.required' => 'يجب ادخال الاسم',
             'title.string' => 'لازم الاسم يكون عبارة عن نص',
             'title.max' => 'الاسم مينفعش يزيد عن 255 حرف',
+
+            'description.required' => 'هذا الحقل مطلوب',
+            'description.string' => 'هذا الحقل لازم يكون من نوع نص',
+
+            'image.required' => 'هذا الحقل مطلوب',
+            'image.image' => 'هذا الحقل لازم يكون عبارة عن صورة',
+            'image.max' => 'اقصى مساحة للملف هي ',
+            'image.mimes' => 'لازم يكون الملف ده من نوع jpg او jpeg او png',
+            
+            'price.required' => 'هذا الحقل مطلوب',
+            'price.integer' => 'هذا الحقل لازم يكون من نوع رقم',
+
+            'year_id.required' => 'هذا الحقل مطلوب',
+            'year_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
+            'year_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
+
+            'division_id.required' => 'هذا الحقل مطلوب',
+            'division_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
+            'division_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
 
         ]);
 
@@ -120,7 +175,7 @@ class CourseController extends Controller
             'division_id' => $request->division_id
         ]);
 
-        return $this->response('Updated Suc');
+        return $this->response('تم التحديث بنجاح');
     }
 
     public function delete($id) {

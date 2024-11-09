@@ -85,7 +85,7 @@ class JWTAuthController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         if($request->hasfile('card_photo')) {
@@ -148,13 +148,16 @@ class JWTAuthController extends Controller
     {
         try {
             if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['error' => 'User not found'], 404);
+                return response()->json(['error' => 'هذا المستخدم غير موجود'], 404);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'Invalid token'], 400);
+            return response()->json(['error' => 'التوكن غير صالح'], 400);
         }
 
-        return response()->json(compact('user'));
+        return response()->json([
+            compact('user'),
+            'Message' => 'تم رجوع ببيانات المستخدم بنجاح'
+        ]);
     }
 
     // User logout
