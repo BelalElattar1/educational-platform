@@ -27,59 +27,59 @@ class JWTAuthController extends Controller
             'card_photo'           => 'required|image|max:1048576|mimes:jpg,jpeg,png',
             'division_id'          => 'required|integer|exists:divisions,id',
             'governorate_id'       => 'required|integer|exists:governorates,id',
-            'parent_phone_number'  => 'string|min:11|max:11',
-            'student_phone_number' => 'string|min:11|max:11|unique:users',
+            'parent_phone_number'  => 'required|string|min:11|max:11',
+            'student_phone_number' => 'required|string|min:11|max:11|unique:users',
 
         ], [
 
-            'email.required' => 'هذا الحقل مطلوب',
-            'email.string'   => 'هذا الحقل لازم يكون عبارة عن نص',
-            'email.email'    => 'هذا الحقل لازم يكون بصيغة الايميل',
-            'email.max'      => 'اقصى عدد حروف لهذا الحقل هو 255',
-            'email.unique'   => 'هذا الايميل موجود بالفعل',
-
-            'gender.required' => 'هذا الحقل مطلوب',
-            'gender.in'       => 'لازم يكون هذا الحقل اما ذكر او انثى',
-
-            'year_id.required' => 'هذا الحقل مطلوب',
-            'year_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
-            'year_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
-
-            'password.required' => 'هذا الحقل مطلوب',
-            'password.string' => 'هذا الحقل لازم يكون بصيغة نص',
-            'password.min' => 'لازم هذا الحقل يكون اقل عدد حروف ليه هو 6',
-
-            'last_name.required' => 'هذا الحقل مطلوب',
-            'last_name.string' => 'لازم يكون هذا الحقل بصيغة نصية',
-            'last_name.min' => 'اقل عدد حروف لهذا الحقل هو 2',
-            'last_name.max' => 'اقصى عدد حروف لهذا الحقل هو 50',
-
-            'first_name.required' => 'هذا الحقل مطلوب',
-            'first_name.string' => 'لازم يكون هذا الحقل بصيغة نصية',
-            'first_name.min' => 'اقل عدد حروف لهذا الحقل هو 2',
-            'first_name.max' => 'اقصى عدد حروف لهذا الحقل هو 50',
-
-            'card_photo.required' => 'هذا الحقل مطلوب',
-            'card_photo.image' => 'هذا الحقل لازم يكون عبارة عن صورة',
-            'card_photo.max' => 'اقصى مساحة للملف هي ',
-            'card_photo.mimes' => 'لازم يكون الملف ده من نوع jpg او jpeg او png',
-            
-            'division_id.required' => 'هذا الحقل مطلوب',
-            'division_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
-            'division_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
-
-            'governorate_id.required' => 'هذا الحقل مطلوب',
-            'governorate_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
-            'governorate_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
-
-            'parent_phone_number.string' => 'لازم يكون هذا الرقم بصيغة نصي',
-            'parent_phone_number.min' => 'لازم الرقم يتكون من 11 رقم',
-            'parent_phone_number.max' => 'لازم الرقم يتكون من 11 رقم',
-
-            'student_phone_number.string' => 'لازم يكون هذا الرقم بصيغة نصي',
-            'student_phone_number.min' => 'لازم الرقم يتكون من 11 رقم',
-            'student_phone_number.max' => 'لازم الرقم يتكون من 11 رقم',
-            'student_phone_number.unique' => 'هذا الرقم مسجل بالفعل',
+            'email.required' => 'الإيميل مطلوب',
+            'email.string'   => 'الإيميل لازم يكون نص',
+            'email.email'    => 'الإيميل مش مكتوب صح',
+            'email.max'      => 'الإيميل طويل زيادة',
+            'email.unique'   => 'الإيميل مستخدم قبل كده',
+        
+            'gender.required' => 'النوع مطلوب',
+            'gender.in'       => 'اختار النوع صح',
+        
+            'year_id.required' => 'السنة مطلوبة',
+            'year_id.integer'  => 'السنة لازم تكون رقم',
+            'year_id.exists'   => 'السنة دي مش موجودة',
+        
+            'password.required' => 'كلمة السر مطلوبة',
+            'password.string'   => 'كلمة السر لازم تكون نص',
+            'password.min'      => 'كلمة السر لازم ٦ حروف على الأقل',
+        
+            'last_name.required' => 'اسم العيلة مطلوب',
+            'last_name.string'   => 'اسم العيلة لازم يكون نص',
+            'last_name.min'      => 'اسم العيلة قصير قوي',
+            'last_name.max'      => 'اسم العيلة طويل',
+        
+            'first_name.required' => 'الاسم الأول مطلوب',
+            'first_name.string'   => 'الاسم الأول لازم يكون نص',
+            'first_name.min'      => 'الاسم الأول قصير قوي',
+            'first_name.max'      => 'الاسم الأول طويل',
+        
+            'card_photo.required' => 'الصورة مطلوبة',
+            'card_photo.image'    => 'الصورة لازم تكون من نوع صورة',
+            'card_photo.max'      => 'حجم الصورة كبير',
+            'card_photo.mimes'    => 'الصورة لازم تكون بصيغة jpg أو jpeg أو png',
+        
+            'division_id.required' => 'القسم مطلوب',
+            'division_id.integer'  => 'القسم لازم يكون رقم',
+            'division_id.exists'   => 'القسم ده مش موجود',
+        
+            'governorate_id.required' => 'المحافظة مطلوبة',
+            'governorate_id.integer'  => 'المحافظة لازم تكون رقم',
+            'governorate_id.exists'   => 'المحافظة دي مش موجودة',
+        
+            'parent_phone_number.required' => 'هذا الحقل مطلوب',
+            'parent_phone_number.min' => 'رقم ولي الأمر 11 رقم بالضبط',
+            'parent_phone_number.max' => 'رقم ولي الأمر 11 رقم بالضبط',
+        
+            'student_phone_number.required'   => 'هذا الحقل مطلوب',
+            'student_phone_number.min'   => 'رقم الطالب 11 رقم بالضبط',
+            'student_phone_number.max'   => 'رقم الطالب 11 رقم بالضبط',
+            'student_phone_number.unique' => 'الرقم ده مستخدم قبل كده',
 
         ]);
 
@@ -119,7 +119,7 @@ class JWTAuthController extends Controller
 
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'البيانات اللي انت مدخلها مش صح راجع عليهم تاني'], 401);
+                return response()->json(['error' => 'البيانات غير صحيحة'], 401);
             }
 
             // Get the authenticated user.
