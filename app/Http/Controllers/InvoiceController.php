@@ -17,14 +17,14 @@ class InvoiceController extends Controller
 
     public function get_all_invoices_unpaid() {
 
-        $invoices = Invoice::where('student_id', auth()->user()->id)->where('status', 'unpaid')->get();
+        $invoices = Invoice::where('student_id', auth()->user()->id)->where('status', 'unpaid')->with('course')->get();
         return $this->response('Get All Invoices Unpaid', 201, $invoices);
 
     }
 
     public function my_courses() {
 
-        $courses = Invoice::where('student_id', auth()->user()->id)->where('status', 'paid')->with('course')->get();
+        $courses = Invoice::where('student_id', auth()->user()->id)->where('status', 'paid')->with('course.categories.sections')->get();
         return $this->response('Get All My Courses Suc', 201, $courses);
 
     }

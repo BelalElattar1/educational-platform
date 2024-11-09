@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Response;
 use App\Models\Section;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,6 +16,36 @@ class SectionController extends Controller
 
         $exam = Section::with(['questions.chooses'])->where('id', $id)->where('type', 'exam')->first();
         return $this->response(message: 'Show Exam Suc', data: $exam);
+
+    }
+
+    public function show($id) {
+
+        // بجيب الكورس اللي بينتمي ليه هذا السيكشن
+        $course_id       = Section::findOrFail($id)->category->course->id;
+        // بتاكد اذا كان الطالب مشترك في هذا الكورس ولا لا
+        $is_invoice_paid = Invoice::where('student_id', auth()->user()->id)
+                                    ->where('course_id', $course_id)
+                                    ->where('status', 'paid')->first();
+        if($is_invoice_paid) {
+
+            $section = Section::where('id', $id)->first();
+            if($section->type == 'exam') {
+
+                $exam = $section::with('questions.chooses')->first();
+                return $this->response(message: 'Show Exam Suc', data: $exam);
+
+            } else {
+
+                return $this->response(message: 'Show Section Suc', data: $section);
+
+            }
+
+        } else {
+
+            return $this->response('انت غير مشترك بالكورس وبطل تلعب في الموقع عشان منحظرش حسابك');
+
+        }
 
     }
 

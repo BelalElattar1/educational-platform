@@ -15,6 +15,10 @@ class Section extends Model
         'category_id'
     ];
 
+    public function category() {
+        return $this->belongsTo(Category::class);    
+    }
+
     public function questions() {
         return $this->hasMany(Question::class, 'exam_id', 'id');
     }

@@ -59,6 +59,7 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
         Route::group(['prefix' => 'section'], function () {
             Route::post('/create', [SectionController::class, 'store']);
             Route::put('/update/{id}', [SectionController::class, 'update']);
+            Route::get('/show-exam/{id}', [SectionController::class, 'show_exam']);
         });
 
         // Question Controller
@@ -74,9 +75,9 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
 
     });
 
-    // Exam Controller
+    // Show Section Controller
     Route::group(['prefix' => 'section'], function () {
-        Route::get('/show-exam/{id}', [SectionController::class, 'show_exam']);
+        Route::get('/show/{id}', [SectionController::class, 'show']);
     });
 
     // Recharge Controller

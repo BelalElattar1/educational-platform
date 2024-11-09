@@ -17,6 +17,7 @@ class JWTAuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
+
             'email'                => 'required|string|email|max:255|unique:users',
             'gender'               => 'required|in:male,female',
             'year_id'              => 'required|integer|exists:years,id',
@@ -29,10 +30,57 @@ class JWTAuthController extends Controller
             'parent_phone_number'  => 'string|min:11|max:11|unique:users',
             'student_phone_number' => 'string|min:11|max:11|unique:users'
 
-        ], [
+        ],[
 
-            'first_name.required' => 'لازم تكتب اسمك',
-            'first_name.max'      => 'مينففع اسمك يزيد عن 255 حرف'
+            'email.required' => 'هذا الحقل مطلوب',
+            'email.string' => 'هذا الحقل لازم يكون عبارة عن نص',
+            'email.email' => 'هذا الحقل لازم يكون بصيغة الايميل',
+            'email.max' => 'اقصى عدد حروف لهذا الحقل هو 255',
+            'email.unique' => 'هذا الايميل موجود بالفعل',
+
+            'gender.required' => 'هذا الحقل مطلوب',
+            'gender.in' => 'لازم يكون هذا الحقل اما ذكر او انثى',
+
+            'year_id.required' => 'هذا الحقل مطلوب',
+            'year_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
+            'year_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
+
+            'password.required' => 'هذا الحقل مطلوب',
+            'password.string' => 'هذا الحقل لازم يكون بصيغة نص',
+            'password.min' => 'لازم هذا الحقل يكون اقل عدد حروف ليه هو 6',
+
+            'last_name.required' => 'هذا الحقل مطلوب',
+            'last_name.string' => 'لازم يكون هذا الحقل بصيغة نصية',
+            'last_name.min' => 'اقل عدد حروف لهذا الحقل هو 2',
+            'last_name.max' => 'اقصى عدد حروف لهذا الحقل هو 50',
+
+            'first_name.required' => 'هذا الحقل مطلوب',
+            'first_name.string' => 'لازم يكون هذا الحقل بصيغة نصية',
+            'first_name.min' => 'اقل عدد حروف لهذا الحقل هو 2',
+            'first_name.max' => 'اقصى عدد حروف لهذا الحقل هو 50',
+
+            'card_photo.required' => 'هذا الحقل مطلوب',
+            'card_photo.image' => 'هذا الحقل لازم يكون عبارة عن صورة',
+            'card_photo.max' => 'اقصى مساحة للملف هي ',
+            'card_photo.mimes' => 'لازم يكون الملف ده من نوع jpg او jpeg او png',
+            
+            'division_id.required' => 'هذا الحقل مطلوب',
+            'division_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
+            'division_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
+
+            'governorate_id.required' => 'هذا الحقل مطلوب',
+            'governorate_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
+            'governorate_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
+
+            'parent_phone_number.string' => 'لازم يكون هذا الرقم بصيغة نصي',
+            'parent_phone_number.min' => 'لازم الرقم يتكون من 11 رقم',
+            'parent_phone_number.max' => 'لازم الرقم يتكون من 11 رقم',
+            'parent_phone_number.unique' => 'هذا الرقم مسجل بالفعل',
+
+            'student_phone_number.string' => 'لازم يكون هذا الرقم بصيغة نصي',
+            'student_phone_number.min' => 'لازم الرقم يتكون من 11 رقم',
+            'student_phone_number.max' => 'لازم الرقم يتكون من 11 رقم',
+            'student_phone_number.unique' => 'هذا الرقم مسجل بالفعل',
 
         ]);
 
@@ -59,7 +107,10 @@ class JWTAuthController extends Controller
             'password'             => Hash::make($request->get('password'))
         ]);
 
-        return response()->json(compact('user'), 201);
+        return response()->json([
+            compact('user'),
+            'Message' => 'تم تسجيل الحساب بنجاح'
+        ], 201);
     }
 
     // User login
@@ -69,22 +120,26 @@ class JWTAuthController extends Controller
 
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'Invalid credentials'], 401);
+                return response()->json(['error' => 'البيانات اللي انت مدخلها مش صح راجع عليهم تاني'], 401);
             }
 
             // Get the authenticated user.
             $user = auth()->user();
 
             if (!$user->is_active) {
-                return response()->json(['error' => 'user_is_inactive'], 401);
+                return response()->json(['error' => 'هذا الحساب غير مفعل يمكنك ان تكلم المستر'], 401);
             }
 
             // (optional) Attach the role to the token.
             $token = JWTAuth::claims(['role' => $user->role])->fromUser($user);
 
-            return response()->json(compact('token'));
+            return response()->json([
+                compact('token'),
+                'Message' => 'لقد تم تسجيل الدخول بنجاح'
+            ]);
+
         } catch (JWTException $e) {
-            return response()->json(['error' => 'Could not create token'], 500);
+            return response()->json(['error' => 'نعتذر لقد حدث خطأ برجاء المحاولة مرة اخرى'], 500);
         }
     }
 
@@ -107,7 +162,7 @@ class JWTAuthController extends Controller
     {
         JWTAuth::invalidate(JWTAuth::getToken());
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'تم تسجيل الخروج بنجاح']);
     }
 
     public function getStudentsInactive() {
@@ -117,13 +172,13 @@ class JWTAuthController extends Controller
 
             return response()->json([
                 'data' => $users,
-                'Massege' => 'Return All Student Suc'
+                'Massege' => 'تم جلب جميع الطلاب بنجاح'
             ], 200);
 
         } else {
 
             return response()->json([
-                'Message' => 'Not Found Student'
+                'Message' => 'لا يوجد طلاب غير مفعلين'
             ], 404);
 
         }
