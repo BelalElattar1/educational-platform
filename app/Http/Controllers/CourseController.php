@@ -7,6 +7,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\CourseResource;
 
 class CourseController extends Controller
 {
@@ -18,30 +19,55 @@ class CourseController extends Controller
 
             if(auth()->user()->is_admin) {
 
-                $courses = Course::all();
+                $get_courses = Course::with('year')->get();
     
             } elseif(!auth()->user()->is_admin) {
     
-                $courses = Course::whereDoesntHave('invoices', function ($query) {
+                $get_courses = Course::whereDoesntHave('invoices', function ($query) {
                     $query->where('status', 'paid');
                     $query->where('student_id', auth()->user()->id);
-                })->get();
+                })->with('year')->where('year_id', auth()->user()->year_id)->get();
     
             }
 
         } else {
 
-            $courses = Course::all();
+            $get_courses = Course::with('year')->get();
 
         }
 
-        if($courses) {
+        $courses = CourseResource::collection($get_courses);  
+        return $this->response('تم جلب جميع الكورسات بنجاح', 200, $courses);
+        
+    }
+    
+    public function show($id) {
+        
+        if(auth()->user()->is_admin) {
             
-            return $this->response('تم جلب جميع الكورسات بنجاح', 200, $courses);
+            $get_course = Course::findOrFail($id);
+            $course     = (new CourseResource($get_course))->additional([1]);  
+            return $this->response('تم جلب جميع الكورس بنجاح', 200, $course);
 
         } else {
 
-            return $this->response('لا يوجد كورسات');
+            $get_course = Course::whereHas('invoices', function ($query) {
+                $query->where('status', 'paid');
+                $query->where('student_id', auth()->user()->id);
+            })->where('id', $id)->first();
+
+            if($get_course) {
+
+                $course  = (new CourseResource($get_course))->additional([1]);  
+                return $this->response('تم جلب الكورس بنجاح', 200, $course);
+
+            } else {
+
+                $get_course = Course::findOrFail($id);
+                $course     = new CourseResource($get_course);  
+                return $this->response('تم جلب جميع الكورس بنجاح', 200, $course);
+
+            }
 
         }
 
@@ -55,8 +81,7 @@ class CourseController extends Controller
             'description' => ['required', 'string'],
             'image'       => ['required', 'image', 'max:1048576', 'mimes:jpg,jpeg,png'],
             'price'       => ['required', 'integer'],
-            'year_id'     => ['required', 'integer', 'exists:years,id'],
-            'division_id' => ['required', 'integer', 'exists:divisions,id']
+            'year_id'     => ['required', 'integer', 'exists:years,id']
 
         ], [
 
@@ -78,10 +103,6 @@ class CourseController extends Controller
             'year_id.required' => 'هذا الحقل مطلوب',
             'year_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
             'year_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
-
-            'division_id.required' => 'هذا الحقل مطلوب',
-            'division_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
-            'division_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
 
         ]);
 
@@ -124,8 +145,7 @@ class CourseController extends Controller
             'description' => ['required', 'string'],
             'image'       => ['required', 'image', 'max:1048576', 'mimes:jpg,jpeg,png'],
             'price'       => ['required', 'integer'],
-            'year_id'     => ['required', 'integer', 'exists:years,id'],
-            'division_id' => ['required', 'integer', 'exists:divisions,id']
+            'year_id'     => ['required', 'integer', 'exists:years,id']
 
         ], [
 
@@ -147,10 +167,6 @@ class CourseController extends Controller
             'year_id.required' => 'هذا الحقل مطلوب',
             'year_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
             'year_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
-
-            'division_id.required' => 'هذا الحقل مطلوب',
-            'division_id.integer' => 'هذا الحقل يجب ان يكون بصيغة رقم',
-            'division_id.exists' => 'متلعبش في الموقع تاني عشان منحظرش حسابك',
 
         ]);
 

@@ -6,18 +6,12 @@ use App\Response;
 use App\Models\Section;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use App\Http\Resources\SectionResource;
 use Illuminate\Support\Facades\Validator;
 
 class SectionController extends Controller
 {
     use Response;
-
-    public function show_exam($id) {
-
-        $exam = Section::with(['questions.chooses'])->where('id', $id)->where('type', 'exam')->first();
-        return $this->response(message: 'Show Exam Suc', data: $exam);
-
-    }
 
     public function show($id) {
 
@@ -29,14 +23,16 @@ class SectionController extends Controller
                                     ->where('status', 'paid')->first();
         if($is_invoice_paid) {
 
-            $section = Section::where('id', $id)->first();
-            if($section->type == 'exam') {
+            $get_section = Section::where('id', $id)->first();
+            if($get_section->type == 'exam') {
 
-                $exam = $section::with('questions.chooses')->first();
+                $get_exam = $get_section::with('questions.chooses')->first();
+                $exam = new SectionResource($get_exam);
                 return $this->response(message: 'Show Exam Suc', data: $exam);
 
             } else {
 
+                $section = new SectionResource($get_section);
                 return $this->response(message: 'Show Section Suc', data: $section);
 
             }

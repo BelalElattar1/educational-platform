@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Division;
-use App\Models\Year;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class JWTAuthController extends Controller
@@ -92,7 +91,7 @@ class JWTAuthController extends Controller
             $card_photo = $path->store('cards', 'public');
         }
 
-        $user = User::create([
+        User::create([
             'email'                => $request->get('email'),
             'gender'               => $request->get('gender'),
             'year_id'              => $request->get('year_id'),
@@ -106,10 +105,7 @@ class JWTAuthController extends Controller
             'password'             => Hash::make($request->get('password'))
         ]);
 
-        return response()->json([
-            compact('user'),
-            'Message' => 'تم تسجيل الحساب بنجاح'
-        ], 201);
+        return response()->json('تم انشاء الحساب بنجاح', 201);
     }
 
     // User login
@@ -169,7 +165,8 @@ class JWTAuthController extends Controller
 
     public function getStudentsInactive() {
 
-        $users = User::where('is_active', 0)->where('is_admin', 0)->get();
+        $get_users = User::where('is_active', 0)->where('is_admin', 0)->with('governorate', 'division', 'year')->get();
+        $users     = UserResource::collection($get_users);
         if($users) {
 
             return response()->json([
@@ -193,7 +190,7 @@ class JWTAuthController extends Controller
             'is_active' => 1
         ]);
         return response()->json([
-            'Message' => 'Update Suc'
+            'Message' => 'تم تفعيل هذا الطالب بنجاح'
         ], 200);
 
     }

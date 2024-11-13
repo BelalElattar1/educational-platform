@@ -7,6 +7,7 @@ use App\Models\Answer;
 use App\Models\Choose;
 use App\Models\Section;
 use App\Models\StudentExam;
+use App\Http\Resources\DegreeResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -67,7 +68,8 @@ class AnswerController extends Controller
 
     public function get_all_degrees() {
 
-        $degrees = StudentExam::with('exam')->where('student_id', auth()->user()->id)->get();
+        $get_degrees = StudentExam::where('student_id', auth()->user()->id)->with('exam')->get();
+        $degrees     = DegreeResource::collection($get_degrees);
         return $this->response('Get All Degrees', data: $degrees);
 
     }

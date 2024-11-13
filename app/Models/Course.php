@@ -11,13 +11,8 @@ class Course extends Model
         'image',
         'price',
         'description',
-        'year_id',
-        'division_id'
+        'year_id'
     ];
-
-    public function division() {
-        return $this->belongsTo(Division::class);
-    }
 
     public function year() {
         return $this->belongsTo(Year::class);

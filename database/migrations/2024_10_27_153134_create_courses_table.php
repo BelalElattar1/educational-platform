@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('image');
             $table->integer('price');
             $table->foreignId('year_id')->constrained('years', 'id')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('division_id')->constrained('divisions', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

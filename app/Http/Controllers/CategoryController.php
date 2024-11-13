@@ -29,6 +29,9 @@ class CategoryController extends Controller
             'name.string' => 'لازم الاسم يكون عبارة عن نص',
             'name.max' => 'الاسم مينفعش يزيد عن 255 حرف',
 
+            'course_id.required' => 'هذا الحقل مطلوب',
+            'course_id.exists' => 'هذا الكورس   غير موجود',
+
         ]);
 
         if($validator->fails()){
@@ -41,7 +44,7 @@ class CategoryController extends Controller
             'course_id' => $request->course_id,
         ]);
 
-        return $this->response('Created Suc');
+        return $this->response('تم انشاء القسم بنجاح');
 
     }
 
@@ -73,7 +76,7 @@ class CategoryController extends Controller
             'title'     => $request->title
         ]);
 
-        return $this->response('Updated Suc');
+        return $this->response('تم التحديث بنجاح');
 
     }
 

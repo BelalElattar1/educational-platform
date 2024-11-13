@@ -59,7 +59,6 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
         Route::group(['prefix' => 'section'], function () {
             Route::post('/create', [SectionController::class, 'store']);
             Route::put('/update/{id}', [SectionController::class, 'update']);
-            Route::get('/show-exam/{id}', [SectionController::class, 'show_exam']);
         });
 
         // Question Controller
@@ -111,6 +110,9 @@ Route::group(['middleware' => 'JwtAuth', 'throttle:10,1'], function () {
         Route::get('/user', [JWTAuthController::class, 'getUser']);
         Route::post('/logout', [JWTAuthController::class, 'logout']);
     });
+
+    // Course Controller
+    Route::get('course/show/{id}', [CourseController::class, 'show']);
 
 });
 
