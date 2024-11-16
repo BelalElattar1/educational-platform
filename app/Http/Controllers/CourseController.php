@@ -43,31 +43,41 @@ class CourseController extends Controller
     
     public function show($id) {
         
-        if(auth()->user()->is_admin) {
-            
-            $get_course = Course::findOrFail($id);
-            $course     = (new CourseResource($get_course))->additional([1]);  
-            return $this->response('تم جلب جميع الكورس بنجاح', 200, $course);
+        if(auth()->user() != Null) {
+
+            if(auth()->user()->is_admin) {
+                
+                $get_course = Course::findOrFail($id);
+                $course     = (new CourseResource($get_course))->additional([1]);  
+                return $this->response('تم جلب جميع الكورس بنجاح', 200, $course);
+
+            } elseif(!auth()->user()->is_admin) {
+
+                $get_course = Course::whereHas('invoices', function ($query) {
+                    $query->where('status', 'paid');
+                    $query->where('student_id', auth()->user()->id);
+                })->where('id', $id)->first();
+
+                if($get_course) {
+
+                    $course  = (new CourseResource($get_course))->additional([1]);  
+                    return $this->response('تم جلب الكورس بنجاح', 200, $course);
+
+                } else {
+
+                    $get_course = Course::findOrFail($id);
+                    $course     = new CourseResource($get_course);  
+                    return $this->response('تم جلب جميع الكورس بنجاح', 200, $course);
+
+                }
+
+            }
 
         } else {
 
-            $get_course = Course::whereHas('invoices', function ($query) {
-                $query->where('status', 'paid');
-                $query->where('student_id', auth()->user()->id);
-            })->where('id', $id)->first();
-
-            if($get_course) {
-
-                $course  = (new CourseResource($get_course))->additional([1]);  
-                return $this->response('تم جلب الكورس بنجاح', 200, $course);
-
-            } else {
-
-                $get_course = Course::findOrFail($id);
-                $course     = new CourseResource($get_course);  
-                return $this->response('تم جلب جميع الكورس بنجاح', 200, $course);
-
-            }
+            $get_course = Course::findOrFail($id);
+            $course     = new CourseResource($get_course);  
+            return $this->response('تم جلب جميع الكورس بنجاح', 200, $course);
 
         }
 
