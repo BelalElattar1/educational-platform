@@ -17,7 +17,7 @@ use App\Http\Controllers\ {
     AdminController
 };
 
-Route::group(['middleware' => 'throttle:10,1'], function () {
+// Route::group(['middleware' => 'throttle:10,1'], function () {
 
     Route::group(['middleware' => 'JwtAuth'], function () {
 
@@ -136,4 +136,4 @@ Route::group(['middleware' => 'throttle:10,1'], function () {
         return Governorate::all();
     });
 
-});
+// });

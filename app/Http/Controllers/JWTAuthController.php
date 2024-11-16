@@ -149,8 +149,9 @@ class JWTAuthController extends Controller
             return response()->json(['error' => 'التوكن غير صالح'], 400);
         }
 
+        $get_user = new UserResource($user);
         return response()->json([
-            compact('user'),
+            'data' => $get_user,
             'Message' => 'تم رجوع ببيانات المستخدم بنجاح'
         ]);
     }
