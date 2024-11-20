@@ -36,7 +36,8 @@ class CourseResource extends JsonResource
                         $category->sections->map(function ($section) {
                             
                             return [
-                                'section_name' => $section->name
+                                'section_name' => $section->name,
+                                'section_type' => $section->type
                             ];
     
                         }),
