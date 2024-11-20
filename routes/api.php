@@ -95,8 +95,9 @@ use App\Http\Controllers\ {
 
         // Invoice Controller
         Route::group(['prefix' => 'invoice'], function () {
-            Route::get('/get-all-invoices-unpaid', [InvoiceController::class, 'get_all_invoices_unpaid']);
+            Route::get('/get-all-invoices', [InvoiceController::class, 'get_all_invoices']);
             Route::get('/my-courses', [InvoiceController::class, 'my_courses']);
+            Route::put('/show/{id}', [InvoiceController::class, 'show']);
             Route::post('/store', [InvoiceController::class, 'store']);
             Route::put('/pay/{id}', [InvoiceController::class, 'pay']);
         });

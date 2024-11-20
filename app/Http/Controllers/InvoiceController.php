@@ -17,11 +17,29 @@ class InvoiceController extends Controller
 {
     use Response;
 
-    public function get_all_invoices_unpaid() {
+    public function get_all_invoices() {
 
-        $get_invoices = Invoice::where('student_id', auth()->user()->id)->where('status', 'unpaid')->with('course')->get();
+        $get_invoices = Invoice::where('student_id', auth()->user()->id)->with('course')->get();
         $invoices = InvoiceResource::collection($get_invoices);
-        return $this->response('Get All Invoices Unpaid', 201, $invoices);
+        return $this->response('Get All Invoices', 201, $invoices);
+
+    }
+
+    public function show($id) {
+
+        if(auth()->user()->is_admin) {
+
+            $get_invoice = Invoice::findOrFail($id);
+            $invoice = new InvoiceResource($get_invoice);
+            return $this->response('Show Invoice Suc', 201, $invoice);
+
+        } else {
+
+            $get_invoice = Invoice::where('id', $id)->where('student_id', auth()->user()->id)->first();
+            $invoice = new InvoiceResource($get_invoice);
+            return $this->response('Show Invoice Suc', 201, $invoice);
+
+        }
 
     }
 
@@ -50,12 +68,12 @@ class InvoiceController extends Controller
         $invoice = Invoice::where('student_id', auth()->user()->id)->where('course_id', $request->course_id)->first();
         if(!$invoice) {
 
-            Invoice::create([
+            $get_invoice = Invoice::create([
                 'price'      => $course->price,
                 'student_id' => auth()->user()->id,
                 'course_id'  => $request->course_id,
             ]);
-            return $this->response('تم اضافة الكورس الى الفاتورة بنجاح الرجاء الذهاب للفاتورة للدفع');
+            return $this->response('تم اضافة الكورس الى الفاتورة بنجاح الرجاء الذهاب للفاتورة للدفع', data: $get_invoice->id);
 
         }
         return $this->response('هذا الكورس موجود بالفاتورة بالفعل يرجى الذهاب الى سجل الفواتير');
