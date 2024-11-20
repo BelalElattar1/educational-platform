@@ -24,7 +24,16 @@ class RechargeController extends Controller
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [
+
             'code' => ['required', 'string', 'min:13', 'exists:codes,code'],
+
+        ], [
+
+            'code.required' => 'هذا الحقل مطلوب',
+            'code.string'   => 'هذا الكود غير صالح',
+            'code.min'      => 'لازم الكود يكون 13 حرف اقل حاجة',
+            'code.exists'   => 'هذا الكود غير صالح',
+
         ]);
 
         if($validator->fails()){
@@ -51,7 +60,7 @@ class RechargeController extends Controller
                 ]);
 
             });
-            return $this->response('تم شحن رصيدك بنجاح');
+            return $this->response('تم شحن رصيدك بنجاح', data: $code->price);
 
         } else {
 

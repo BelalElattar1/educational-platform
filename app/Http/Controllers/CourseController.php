@@ -49,7 +49,7 @@ class CourseController extends Controller
                 
                 $get_course = Course::findOrFail($id);
                 $course     = (new CourseResource($get_course))->additional([1]);  
-                return $this->response('تم جلب جميع الكورس بنجاح', 200, $course);
+                return $this->response('تم جلب الكورس بنجاح', 200, $course);
 
             } elseif(!auth()->user()->is_admin) {
 
