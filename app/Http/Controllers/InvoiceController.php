@@ -36,8 +36,16 @@ class InvoiceController extends Controller
         } else {
 
             $get_invoice = Invoice::where('id', $id)->where('student_id', auth()->user()->id)->first();
-            $invoice = new InvoiceResource($get_invoice);
-            return $this->response('Show Invoice Suc', 201, $invoice);
+            if($get_invoice) {
+
+                $invoice = new InvoiceResource($get_invoice);
+                return $this->response('Show Invoice Suc', 201, $invoice);
+
+            } else {
+
+                return $this->response('بطل تلعب في الموقع عشان منحظرش حسابك');
+
+            }
 
         }
 
