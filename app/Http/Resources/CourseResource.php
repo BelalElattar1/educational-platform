@@ -30,12 +30,14 @@ class CourseResource extends JsonResource
 
                     return [
     
+                        'category_id' => $category->id,
                         'category_name' => $category->name,
                         'category_title' => $category->title,
     
                         $category->sections->map(function ($section) {
                             
                             return [
+                                'section_id'   => $section->id,
                                 'section_name' => $section->name,
                                 'section_type' => $section->type
                             ];
