@@ -51,8 +51,9 @@ class RechargeController extends Controller
                     'student_id' => auth()->user()->id
                 ]);
 
-                User::findOrFail($recharge->student_id)->update([
-                    'wallet' => $code->price
+                $student = User::findOrFail($recharge->student_id);
+                $student->update([
+                    'wallet' => $student->wallet + $code->price
                 ]);
 
                 $code->update([
