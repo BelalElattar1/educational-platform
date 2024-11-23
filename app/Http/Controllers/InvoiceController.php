@@ -19,9 +19,9 @@ class InvoiceController extends Controller
 
     public function get_all_invoices() {
 
-        $get_invoices = Invoice::where('student_id', auth()->user()->id)->with('course')->get();
+        $get_invoices = Invoice::where('student_id', auth()->user()->id)->get();
         $invoices = InvoiceResource::collection($get_invoices);
-        return $this->response('Get All Invoices', 201, $invoices);
+        return $this->response('جلب جميع الفواتير بنجاح', 201, $invoices);
 
     }
 
@@ -31,7 +31,7 @@ class InvoiceController extends Controller
 
             $get_invoice = Invoice::findOrFail($id);
             $invoice = new InvoiceResource($get_invoice);
-            return $this->response('Show Invoice Suc', 201, $invoice);
+            return $this->response('عرض تفاصيل الفاتورة بنجاح', 201, $invoice);
 
         } else {
 
@@ -39,7 +39,7 @@ class InvoiceController extends Controller
             if($get_invoice) {
 
                 $invoice = new InvoiceResource($get_invoice);
-                return $this->response('Show Invoice Suc', 201, $invoice);
+                return $this->response('عرض تفاصيل الفاتورة بنجاح', 201, $invoice);
 
             } else {
 
@@ -58,7 +58,7 @@ class InvoiceController extends Controller
             $query->where('student_id', auth()->user()->id);
         })->with('year')->get();
         $courses = CourseResource::collection($get_courses);
-        return $this->response('Get All My Courses Suc', 201, $courses);
+        return $this->response('عرض جميع كورساتي بنجاح', 201, $courses);
 
     }
 

@@ -83,7 +83,7 @@ class QuestionController extends Controller
 
             }
 
-            return $this->response('Created Suc');
+            return $this->response('تم الانشاء بنجاح');
 
         }
 

@@ -17,7 +17,7 @@ class RechargeController extends Controller
     public function index() {
 
         $recharges = Recharge::where('student_id', auth()->user()->id)->get();
-        return $this->response('Get All Recharges Suc', 201, $recharges);
+        return $this->response('عرض جميع شحناتي', 201, $recharges);
 
     }
 

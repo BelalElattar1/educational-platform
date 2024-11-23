@@ -56,11 +56,11 @@ class AnswerController extends Controller
                 'degree' => $degree
             ]);
 
-            return $this->response('The degree has been registered successfully The Degree Is', data: $student_exam->degree);
+            return $this->response('تم تسجيل الدرجة بنجاح درجتك هي ', data: $student_exam->degree);
 
         } else {
 
-            return $this->response('Soryy This Is Not Exam', 404);
+            return $this->response('لا تلعب في الموقع لك لا نحظر حسابك', 404);
 
         }
 
@@ -70,7 +70,7 @@ class AnswerController extends Controller
 
         $get_degrees = StudentExam::where('student_id', auth()->user()->id)->with('exam')->get();
         $degrees     = DegreeResource::collection($get_degrees);
-        return $this->response('Get All Degrees', data: $degrees);
+        return $this->response('جلب جميع الرجات', data: $degrees);
 
     }
 

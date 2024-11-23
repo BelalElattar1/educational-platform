@@ -14,7 +14,7 @@ class CodeController extends Controller
     public function index() {
 
         $codes = Code::where('is_active', 1)->get();
-        return $this->response('Show All Codes Suc', data: $codes);
+        return $this->response('عرض جميع الاكواد المفعلة بنجاح', data: $codes);
 
     }
 
@@ -22,6 +22,8 @@ class CodeController extends Controller
 
         $validator = Validator::make($request->all(), [
             'price' => ['required', 'integer']
+        ],[
+            'price.required' => 'هذا الحقل مطلوب'
         ]);
 
         if($validator->fails()){
@@ -33,6 +35,6 @@ class CodeController extends Controller
             'price' => $request->price
         ]);
 
-        return $this->response('Created Suc');
+        return $this->response('تم انشاء الكود بنجاح');
     }
 }

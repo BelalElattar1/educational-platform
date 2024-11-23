@@ -28,12 +28,12 @@ class SectionController extends Controller
 
                 $get_exam = $get_section::with('questions.chooses')->first();
                 $exam = new SectionResource($get_exam);
-                return $this->response(message: 'Show Exam Suc', data: $exam);
+                return $this->response(message: 'عرض الامتحان بنجاح', data: $exam);
 
             } else {
 
                 $section = new SectionResource($get_section);
-                return $this->response(message: 'Show Section Suc', data: $section);
+                return $this->response(message: 'عرض السيكشن بنجاح', data: $section);
 
             }
 
@@ -84,7 +84,7 @@ class SectionController extends Controller
             'category_id' => $request->category_id
         ]);
 
-        return $this->response('Created Suc');
+        return $this->response('تم الانشاء بنجاح');
 
     }
 
@@ -125,7 +125,7 @@ class SectionController extends Controller
             'exam_mark' => $request->exam_mark,
         ]);
 
-        return $this->response('Updated Suc');
+        return $this->response('تم التعديل بناح');
 
     }
     
