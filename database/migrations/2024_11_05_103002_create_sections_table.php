@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('link')->nullable();
             $table->integer('time')->nullable();
             $table->integer('exam_mark')->nullable();
-            $table->enum('type', ['lecture', 'pdf', 'exam']);
+            $table->enum('type', ['video', 'pdf', 'exam']);
             $table->foreignId('category_id')->constrained('categories', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

@@ -50,7 +50,7 @@ class SectionController extends Controller
         $validator = Validator::make($request->all(), [
 
             'name'        => ['required', 'string', 'max:255'],
-            'type'        => ['required', 'in:lecture,pdf,exam'],
+            'type'        => ['required', 'in:video,pdf,exam'],
             'exam_mark'   => ['nullable', 'integer'],
             'time'        => ['nullable', 'integer'],
             'link'        => ['nullable', 'url', 'max:255'],
@@ -59,7 +59,7 @@ class SectionController extends Controller
         ], [
 
             'type.required' => 'يجب ادخال النوع',
-            'type.in' => 'لازم النوع  يكون عبارة عن pdf او lecture او exam',
+            'type.in' => 'لازم النوع  يكون عبارة عن pdf او video او exam',
 
             'name.required' => 'يجب ادخال الاسم',
             'name.string' => 'لازم الاسم يكون عبارة عن نص',
@@ -93,7 +93,7 @@ class SectionController extends Controller
         $validator = Validator::make($request->all(), [
 
             'name'        => ['required', 'string', 'max:255'],
-            'type'        => ['required', 'in:lecture,pdf,exam'],
+            'type'        => ['required', 'in:video,pdf,exam'],
             'exam_mark'   => ['nullable', 'integer'],
             'time'        => ['nullable', 'integer'],
             'link'        => ['nullable', 'string', 'max:500']
@@ -101,7 +101,7 @@ class SectionController extends Controller
         ], [
 
             'type.required' => 'يجب ادخال النوع',
-            'type.in' => 'لازم النوع  يكون عبارة عن pdf او lecture او exam',
+            'type.in' => 'لازم النوع  يكون عبارة عن pdf او video او exam',
 
             'name.required' => 'يجب ادخال الاسم',
             'name.string' => 'لازم الاسم يكون عبارة عن نص',
