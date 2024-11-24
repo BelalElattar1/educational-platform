@@ -51,7 +51,7 @@ class YearController extends Controller
 
         if($year) {
 
-            return $this->response('تم اضافة السنة الدراسية بنجاح');
+            return $this->response('تم اضافة السنة الدراسية بنجاح', data: $year);
 
         } else {
 
@@ -78,11 +78,11 @@ class YearController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        Year::findOrFail($id)->update([
+        $year = Year::findOrFail($id)->update([
             'name' => $request->name
         ]);
 
-        return $this->response('تم التعديل بنجاح', 200);
+        return $this->response('تم التعديل بنجاح', 200, $year);
     }
 
     public function delete($id) {

@@ -30,11 +30,11 @@ class CodeController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        Code::create([
+        $code = Code::create([
             'code' => uniqid(),
             'price' => $request->price
         ]);
 
-        return $this->response('تم انشاء الكود بنجاح');
+        return $this->response('تم انشاء الكود بنجاح', data: $code);
     }
 }

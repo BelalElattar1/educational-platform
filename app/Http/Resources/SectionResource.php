@@ -28,6 +28,7 @@ class SectionResource extends JsonResource
 
                     return [
     
+                        'question_id'   => $question->id,
                         'question_name' => $question->name,
     
                         $question->chooses->map(function ($choose) {

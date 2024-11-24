@@ -38,13 +38,13 @@ class CategoryController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        Category::create([
+        $category = Category::create([
             'name'      => $request->name,
             'title'     => $request->title,
             'course_id' => $request->course_id,
         ]);
 
-        return $this->response('تم انشاء القسم بنجاح');
+        return $this->response('تم انشاء القسم بنجاح', data: $category);
 
     }
 
@@ -71,12 +71,12 @@ class CategoryController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        Category::findOrFail($id)->update([
+        $category = Category::findOrFail($id)->update([
             'name'      => $request->name,
             'title'     => $request->title
         ]);
 
-        return $this->response('تم التحديث بنجاح');
+        return $this->response('تم التحديث بنجاح', data: $category);
 
     }
 

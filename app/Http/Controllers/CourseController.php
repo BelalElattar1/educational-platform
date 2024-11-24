@@ -136,7 +136,7 @@ class CourseController extends Controller
  
         if($course) {
 
-            return $this->response('تم انشاء الكورس بنجاح');
+            return $this->response('تم انشاء الكورس بنجاح', data: $course);
 
         } else {
 
@@ -201,7 +201,7 @@ class CourseController extends Controller
             'division_id' => $request->division_id
         ]);
 
-        return $this->response('تم التحديث بنجاح');
+        return $this->response('تم التحديث بنجاح', data: $course);
     }
 
     public function delete($id) {

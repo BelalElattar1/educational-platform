@@ -60,7 +60,7 @@ class AnswerController extends Controller
 
         } else {
 
-            return $this->response('لا تلعب في الموقع لك لا نحظر حسابك', 404);
+            return $this->response('لا تلعب في الموقع لكي لا نحظر حسابك', 404);
 
         }
 

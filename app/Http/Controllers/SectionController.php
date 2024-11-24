@@ -51,9 +51,9 @@ class SectionController extends Controller
 
             'name'        => ['required', 'string', 'max:255'],
             'type'        => ['required', 'in:video,pdf,exam'],
-            'exam_mark'   => ['nullable', 'integer'],
-            'time'        => ['nullable', 'integer'],
-            'link'        => ['nullable', 'url', 'max:255'],
+            'exam_mark'   => ['required_if:type,exam', 'nullable', 'integer'],
+            'time'        => ['required_if:type,exam', 'nullable', 'integer'],
+            'link'        => ['required_if:type,pdf,video', 'nullable', 'url', 'max:500'],
             'category_id' => ['required', 'integer', 'exists:categories,id']
 
         ], [
@@ -66,8 +66,14 @@ class SectionController extends Controller
             'name.max' => 'الاسم مينفعش يزيد عن 255 حرف',
 
             'time.integer' => 'لازم الوقت يكون عبارة عن رقم',
+            'time.required_if' => 'هذا الحقل مطلوب',
 
             'exam_mark.integer' => 'لازم الدرجة تكون عبارة عن رقم',
+            'exam_mark.required_if' => 'هذا الحقل مطلوب',
+
+            'link.url' => 'الرابط غير صالح',
+            'link.max' => 'اقصى طول هو 500 حرف',
+            'link.required_if' => 'هذا الحقل مطلوب',
 
         ]);
 
@@ -75,7 +81,7 @@ class SectionController extends Controller
             return response()->json($validator->errors(), 400);
         }
         
-        Section::create([
+        $section = Section::create([
             'name' => $request->name,
             'type' => $request->type,
             'link' => $request->link,
@@ -84,7 +90,7 @@ class SectionController extends Controller
             'category_id' => $request->category_id
         ]);
 
-        return $this->response('تم الانشاء بنجاح');
+        return $this->response('تم الانشاء بنجاح', data: $section);
 
     }
 
@@ -94,9 +100,10 @@ class SectionController extends Controller
 
             'name'        => ['required', 'string', 'max:255'],
             'type'        => ['required', 'in:video,pdf,exam'],
-            'exam_mark'   => ['nullable', 'integer'],
-            'time'        => ['nullable', 'integer'],
-            'link'        => ['nullable', 'string', 'max:500']
+            'exam_mark'   => ['required_if:type,exam', 'nullable', 'integer'],
+            'time'        => ['required_if:type,exam', 'nullable', 'integer'],
+            'link'        => ['required_if:type,pdf,video', 'nullable', 'url', 'max:500'],
+            'category_id' => ['required', 'integer', 'exists:categories,id']
 
         ], [
 
@@ -108,8 +115,14 @@ class SectionController extends Controller
             'name.max' => 'الاسم مينفعش يزيد عن 255 حرف',
 
             'time.integer' => 'لازم الوقت يكون عبارة عن رقم',
+            'time.required_if' => 'هذا الحقل مطلوب',
 
             'exam_mark.integer' => 'لازم الدرجة تكون عبارة عن رقم',
+            'exam_mark.required_if' => 'هذا الحقل مطلوب',
+
+            'link.url' => 'الرابط غير صالح',
+            'link.max' => 'اقصى طول هو 500 حرف',
+            'link.required_if' => 'هذا الحقل مطلوب',
 
         ]);
 
@@ -117,7 +130,7 @@ class SectionController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        Section::findOrFail($id)->update([
+        $section = Section::findOrFail($id)->update([
             'name' => $request->name,
             'type' => $request->type,
             'link' => $request->link,
@@ -125,7 +138,7 @@ class SectionController extends Controller
             'exam_mark' => $request->exam_mark,
         ]);
 
-        return $this->response('تم التعديل بناح');
+        return $this->response('تم التعديل بناح', data: $section);
 
     }
     

@@ -99,7 +99,7 @@ class AdminController extends Controller
 
         if ($admin) {
 
-            return $this->response('تم انشاء ادمن بنجاح');
+            return $this->response('تم انشاء ادمن بنجاح', data: $admin);
 
         } else {
 

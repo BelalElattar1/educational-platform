@@ -51,7 +51,7 @@ class DivisionController extends Controller
 
         if($division) {
 
-            return $this->response('تم انشاء القسم بنجاح');
+            return $this->response('تم انشاء القسم بنجاح', data: $division);
 
         } else {
 
@@ -78,11 +78,11 @@ class DivisionController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        Division::findOrFail($id)->update([
+        $division = Division::findOrFail($id)->update([
             'name' => $request->name
         ]);
 
-        return $this->response('تم التعديل بنجاح', 200);
+        return $this->response('تم التعديل بنجاح', 200, $division);
     }
 
     public function delete($id) {
