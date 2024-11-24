@@ -18,10 +18,11 @@ class SectionResource extends JsonResource
         if($this->type == 'exam') {
 
             return [
-                'id' => $this->id,
+                'id'   => $this->id,
                 'name' => $this->name,
                 'time' => $this->time,
                 'mark' => $this->exam_mark,
+                'type' => $this->type,
 
                 $this->questions->map(function ($question) {
 
@@ -47,9 +48,10 @@ class SectionResource extends JsonResource
         } else {
 
             return [
-                'id' => $this->id,
+                'id'   => $this->id,
                 'name' => $this->name,
-                'link' => $this->link
+                'link' => $this->link,
+                'type' => $this->type
             ];
 
         }
