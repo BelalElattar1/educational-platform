@@ -6,6 +6,8 @@ use App\Response;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\CourseResource;
 
@@ -15,7 +17,9 @@ class CourseController extends Controller
 
     public function index() {
 
-        if(auth()->user() != NULL) {
+        try {
+
+            JWTAuth::parseToken()->authenticate();
 
             if(auth()->user()->is_admin) {
 
@@ -30,7 +34,7 @@ class CourseController extends Controller
     
             }
 
-        } else {
+        } catch (JWTException $e) {
 
             $get_courses = Course::with('year')->get();
 
