@@ -19,9 +19,36 @@ class InvoiceController extends Controller
 
     public function get_all_invoices() {
 
-        $get_invoices = Invoice::where('student_id', auth()->user()->id)->get();
+        if(auth()->user()->is_admin) {
+
+            $get_invoices = Invoice::all();
+            $invoices = InvoiceResource::collection($get_invoices);
+            return $this->response('جلب جميع الفواتير بنجاح', 201, $invoices);
+            
+        } else {
+               
+            $get_invoices = Invoice::where('student_id', auth()->user()->id)->get();
+            $invoices = InvoiceResource::collection($get_invoices);
+            return $this->response('جلب جميع الفواتير بنجاح', 201, $invoices);
+
+        }
+
+    }
+
+    public function filter(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'filter' => ['required', 'in:paid,unpaid']
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+
+        $get_invoices = Invoice::where('status', $request->filter)->get();
         $invoices = InvoiceResource::collection($get_invoices);
         return $this->response('جلب جميع الفواتير بنجاح', 201, $invoices);
+
 
     }
 

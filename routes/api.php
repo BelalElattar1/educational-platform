@@ -74,6 +74,12 @@ use App\Http\Controllers\ {
                 Route::get('/index', [CodeController::class, 'index']);
             });
 
+            // Invoice Controller
+            Route::group(['prefix' => 'invoice'], function () {
+                Route::get('/filter', [InvoiceController::class, 'filter']);
+            });
+
+
         });
 
         // Show Section Controller
@@ -124,6 +130,7 @@ use App\Http\Controllers\ {
     Route::group(['prefix' => 'course'], function () {
         Route::get('/index', [CourseController::class, 'index']);
         Route::get('/show/{id}', [CourseController::class, 'show']);
+        Route::get('/search', [CourseController::class, 'search']);
     });
 
     // Division Controller

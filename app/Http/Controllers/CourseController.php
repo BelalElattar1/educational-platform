@@ -87,6 +87,30 @@ class CourseController extends Controller
 
     }
 
+    public function search(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+
+            'search' => ['required', 'string', 'max:255'],
+
+        ], [
+
+            'search.required' => 'يجب ادخال الاسم',
+            'search.string' => 'لازم الاسم يكون عبارة عن نص',
+            'search.max' => 'الاسم مينفعش يزيد عن 255 حرف',
+
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+
+        $get_courses = Course::where('title', 'LIKE', "%{$request->search}%")->orWhere('description', 'LIKE', "%{$request->search}%")->get();
+        $courses = CourseResource::collection($get_courses);
+        return $this->response('تم جلب جميع الكورسات المشابهة بنجاح', 200, $courses);
+
+    }
+
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [
@@ -210,7 +234,10 @@ class CourseController extends Controller
 
     public function delete($id) {
 
-        
+        $course = Course::findOrFaiL($id);
+        Storage::disk('public')->delete($course->image);
+        $course->delete();
+        return $this->response('تم حذف الكورس بنجاح', 200);
 
     }
 
